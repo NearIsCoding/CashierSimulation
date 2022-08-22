@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>NPC movement animations</title>
+        <script src="{{ url_for('static', filename='js/main.js') }}" charset="utf-8" defer></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}" type="text/css" media="screen" title="no title" charset="utf-8">
+    </head>
+    <body>
+        <canvas id="canvas1"></canvas>
+        <div>
+          <button id="simulation">Run simulation</button>
+        </div>
+        <script type="text/javascript" charset="utf-8">
+          const personImgs = [
+                      "{{ url_for('static', filename='img/P1.png') }}" ,
+                      "{{ url_for('static', filename='img/P2.png') }}" ,
+                      "{{ url_for('static', filename='img/P3.png') }}" ,
+                      "{{ url_for('static', filename='img/P4.png') }}" ,
+                      "{{ url_for('static', filename='img/P5.png') }}" ,
+                      "{{ url_for('static', filename='img/P6.png') }}" 
+                    ];
+
+          const cashierImg = "{{ url_for('static', filename='img/cashier.png') }}" 
+          const arrayPersons = [];
+
+          btnSimulator = document.querySelector('#simulation');
+          
+          btnSimulator.addEventListener("click", (event) => {
+                 fetch("{{ url_for('run_simulation') }}")
+                    .then((response) => response.json())
+                        .then((data) => {
+                            data.forEach((p) => {
+                              arrayPersons.push(new Person(p.id, p.entryTime, p.outTime));
+                            });
+                            isRunning = true;
+                        }); 
+                    });
+
+        </script>
+    </body>
+</html>
