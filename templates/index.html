@@ -24,6 +24,7 @@
 
           const cashierImg = "{{ url_for('static', filename='img/cashier.png') }}" 
           const arrayPersons = [];
+          const queue = [];
 
           btnSimulator = document.querySelector('#simulation');
           
@@ -31,13 +32,11 @@
                  fetch("{{ url_for('run_simulation') }}")
                     .then((response) => response.json())
                         .then((data) => {
+                            console.log("Data: ", data.length);
                             data.forEach((p) => {
-                              console.log("Test");
-                              console.log(p.id, p.entryTime, p.outTime);
                               arrayPersons.push(new Person(p.id, p.entryTime, p.outTime));
                             });
                             isRunning = true;
-                            console.log(isRunning);
                         }); 
                     });
 

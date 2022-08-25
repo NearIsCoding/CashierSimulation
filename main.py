@@ -35,12 +35,12 @@ def run_simulation():
       print("Not Empty")
     result = []
 
-    dict = { 'id': lista[0].id, 'entryTime': lista[0].t_llegada, 'outTime': lista[0].t_salida }
-    result.append(dict)
+    #dict = { 'id': lista[0].id, 'entryTime': lista[0].t_llegada, 'outTime': lista[0].t_salida }
+    #result.append(dict)
 
-    #for i in lista:
-    #  dict = { 'id': i.id, 'entryTime':i.t_llegada, 'outTime': i.t_salida }
-    #  result.append(dict)
+    for i in lista:
+      dict = { 'id': i.id, 'entryTime':i.t_llegada, 'outTime': i.t_salida }
+      result.append(dict)
       #result[{'id','entryTime', 'outTime'}] = i , i.entryTime, i.outTime
 
     return make_response(jsonify(result), 200)

@@ -5,27 +5,34 @@ from statistics import pvariance
 import threading
 import time
 import datetime
+
+from flask.app import cli
 from Persona import *
 
+numClientesAtendidos=0
+clientesAgregados = 0
+
+seed = random()
+seed2 = random()
+clientesFila = []
+clientesAtendidos = []
+diferenciaTiemposEspera = []
+tiempoClientesAtendidos = []
+seguir=True
+lambdaNumber = 0.429
+value2=0
+quantity = 10
+tiempoTotal = 0
+tiempoLLegada=0
+contador=1
+i=0
+
 def correr():
-    numClientesAtendidos=0
-    clientesAgregados = 0
-
-    seed = random()
-    seed2 = random()
-    clientesFila = []
+    
+    global clientesAtendidos 
     clientesAtendidos = []
-    diferenciaTiemposEspera = []
-    tiempoClientesAtendidos = []
-    seguir=True
-    lambdaNumber = 0.429
-    value2=0
-    quantity = 10
-    tiempoTotal = 0
-    tiempoLLegada=0
-    contador=1
-    i=0
-
+    
+    
     def generar(seed):
         seed = random()
         seed = fixSeed(seed)
@@ -58,7 +65,8 @@ def correr():
     def atencionCliente():
     
         numClientesAtendidos=0
-        while(seguir==True and len(clientesFila)>0):
+        global seguir 
+        while(seguir == True and len(clientesFila)>0):
             global i
             #print("atención cliente")
             numClientesAtendidos += 1
@@ -160,7 +168,7 @@ def correr():
         return seed
 
     def datos():
-        
+        global contador 
         print("\n*************** CORRIDA ",contador," **********************")
         tiempo_final=datetime.datetime.now()
         print("tiempo de simulación: ",tiempo_final.second - tiempo_inicial.second," segundos")
@@ -212,6 +220,7 @@ def correr():
     datos()
 
     generatedNumbersA=[]
+    global contador
     contador+=1
 
 

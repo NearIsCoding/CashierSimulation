@@ -8,7 +8,8 @@ const CANVAS_HEIGHT = (canvas.height = 300);
 
 let isRunning = false;
 
-let frame = 1200;
+let frame = 0;
+let delay = 0;
 
 class Cashier {
   constructor() {
@@ -56,14 +57,6 @@ class Person {
     // 10 es space y 126 cashier
     this.x = this.width * -1;
     this.y = CANVAS_HEIGHT - this.height;
-    /*
-    this.x = CANVAS_WIDTH - (this.width + 10) * (id + 1) - 126;
-    this.y = CANVAS_HEIGHT - this.height;
-        this.newx = Math.random() * (CANVAS_WIDTH - this.width);
-        this.newy = Math.random() * (CANVAS_HEIGHT - this.height);
-        this.flapSpeed = Math.floor(Math.random() * 3 + 2);
-        this.interval = Math.floor(Math.random() * 200 + 50);
-        */
   }
 
   draw() {
@@ -82,14 +75,27 @@ class Person {
   }
 
   update() {
-    if (frame == this.entryTime) {
-      this.x = CANVAS_WIDTH - (this.width + 10) * (this.personId + 1) - 126;
+    if (frame == parseInt(this.entryTime)) {
+      queue.push(this);
+      this.x = CANVAS_WIDTH - (this.width + 10) * queue.length - 126;
     }
-    if (frame == this.outTime) {
-      for (let index = 0; index < arrayPersons.length; index++) {
-        arrayPersons[index].personId = arrayPersons[index].personId - 1;
+    if (frame == parseInt(this.outTime)) {
+      console.log("Person out: ", this.personId);
+      let removeIndex = null;
+      for (let index = 0; index < queue.length; index++) {
+        if (queue[index].personId == this.personId) {
+          removeIndex = index;
+          break;
+        }
       }
-      arrayPersons.splice(0, 1);
+      queue.splice(removeIndex, 1);
+      console.log("People: ", queue.length);
+    }
+    for (let index = 0; index < queue.length; index++) {
+      if (queue[index].personId == this.personId) {
+        this.x = CANVAS_WIDTH - (this.width + 10) * (index + 1) - 126;
+        break;
+      }
     }
   }
 }
@@ -101,11 +107,17 @@ function animate() {
   cashier.draw();
   arrayPersons.forEach((person) => {
     person.update();
+  });
+  queue.forEach((person) => {
     person.draw();
-    console.log(person.outTime)
   });
   if (isRunning) {
-    frame += 1;
+    if (delay >= 2) {
+      frame += 1;
+      delay = 0;
+    } else {
+      delay += 1;
+    }
   }
   requestAnimationFrame(animate);
 }
