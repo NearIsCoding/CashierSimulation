@@ -102,6 +102,7 @@ function animate() {
   arrayPersons.forEach((person) => {
     person.update();
     person.draw();
+    console.log(person.outTime)
   });
   if (isRunning) {
     frame += 1;

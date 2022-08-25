@@ -32,9 +32,12 @@
                     .then((response) => response.json())
                         .then((data) => {
                             data.forEach((p) => {
+                              console.log("Test");
+                              console.log(p.id, p.entryTime, p.outTime);
                               arrayPersons.push(new Person(p.id, p.entryTime, p.outTime));
                             });
                             isRunning = true;
+                            console.log(isRunning);
                         }); 
                     });
 
