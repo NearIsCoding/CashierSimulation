@@ -28,11 +28,6 @@ def run_simulation():
     #          { 'id': 4, 'entryTime':1600, 'outTime': 1700 }]
     
     lista = montecarlo2.correr()
-    lst = []
-    if not lst:
-      print("Empty")
-    else:
-      print("Not Empty")
     result = []
 
     #dict = { 'id': lista[0].id, 'entryTime': lista[0].t_llegada, 'outTime': lista[0].t_salida }
@@ -45,6 +40,23 @@ def run_simulation():
 
     return make_response(jsonify(result), 200)
 
+@app.route('/result', methods=['GET'])
+def result():
+  if request.method == 'GET':
+    nClientesAtendidos = montecarlo2.enviarNumAtendidos()
+    nClientesFila = montecarlo2.enviarNumFila()
+    nClientes = nClientesAtendidos  + nClientesFila
+    tMaximo = montecarlo2.enviarMaxEspera()
+    pClientesAtendidos = montecarlo2.enviarPorcentajeAtendidos()
+    pClientesNoAtendidos =montecarlo2.enviarPorcentajeNoAtendidos()
+
+    return render_template('result.html', 
+                          nClientes = nClientes, 
+                          nClientesAtendidos = nClientesAtendidos,
+                          nClientesFila = nClientesFila,
+                          tMaximo = tMaximo, 
+                          pClientesAtendidos = pClientesAtendidos,
+                          pClientesNoAtendidos = pClientesNoAtendidos)
 if __name__ == '__main__':
   # Run the Flask app
   app.run(host='0.0.0.0', debug=True, port=8080)

@@ -333,3 +333,33 @@ def correr():
 
     return listaFinal
 
+def enviarNumClientes():
+    global clientesAtendidos
+    global clientesFila
+    temp = clientesFila
+    listaFinal = clientesAtendidos
+    for i in temp:
+        listaFinal.append(temp.pop(0))
+    return len(listaFinal)
+    
+def enviarNumAtendidos():
+    global clientesAtendidos
+    return len(clientesAtendidos)
+
+def enviarNumFila():
+    global clientesFila
+    return len(clientesFila)
+    
+def enviarMaxEspera():
+    global diferenciaTiemposEspera
+    return max(diferenciaTiemposEspera)
+    
+def enviarPorcentajeAtendidos():
+    global clientesAtendidos
+    global clientesFila
+    return ((len(clientesAtendidos)/(len(clientesAtendidos) + len(clientesFila)))*100)
+
+def enviarPorcentajeNoAtendidos():
+    global tiempoClientesAtendidos
+    global clientesFila
+    return ((len(clientesFila)/(len(tiempoClientesAtendidos) + len(clientesFila)))*100)
